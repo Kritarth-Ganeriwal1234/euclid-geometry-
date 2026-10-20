@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Euclid's Geometry — Axioms & Postulates</title>
+<style>
+:root{--navy:#172b4d;--blue:#284d75;--gold:#c89b3c;--cream:#fbf5e8;--paper:#fffdf7;--ink:#1e293b;--muted:#5f6b7b;--border:#e6d7b7;--green:#2e735a;--red:#a44336}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+header{background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:24px 20px 42px}
+nav{max-width:1000px;margin:auto;display:flex;gap:8px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;border:1px solid #ffffff55;border-radius:999px;padding:7px 12px;font-size:13px}
+nav a:hover{background:#ffffff20}
+.hero{max-width:1000px;margin:42px auto 0}
+.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#f0d18b;font-weight:bold}
+h1{font-family:Georgia,serif;font-size:clamp(2.3rem,7vw,4.8rem);line-height:1.04;margin:10px 0}
+.hero p{max-width:680px;color:#e8eef6;font-size:16px}
+.hero .small{font-size:12px;color:#cbd7e5}
+main{max-width:1000px;margin:auto;padding:0 20px}
+section{padding:38px 0;border-bottom:1px solid var(--border);scroll-margin-top:12px}
+.label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#91691a;font-weight:bold}
+h2{font-family:Georgia,serif;color:var(--navy);font-size:clamp(1.8rem,4vw,2.6rem);margin:4px 0 8px}
+.intro{color:var(--muted);max-width:760px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--border);border-radius:13px;padding:17px;box-shadow:0 5px 15px #30250c08}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.number{width:35px;height:35px;display:grid;place-items:center;flex-shrink:0;border-radius:50%;background:#f3e6c7;color:#795714;font-weight:bold}
+.card h3{margin:0;color:var(--blue);font-size:16px}
+.statement{font-family:Georgia,serif;font-size:17px;line-height:1.5;color:#202d42;margin:8px 0}
+.explain{font-size:13px;color:var(--muted);margin:0}
+.example{background:#f8f0dc;border-radius:8px;padding:9px 11px;margin-top:12px;font-size:13px}
+.diagram{background:#fffdf8;border:1px dashed #cbb98e;border-radius:10px;margin-top:12px;padding:8px;text-align:center}
+svg{width:100%;max-width:300px;height:auto}
+svg text{font:12px Arial,sans-serif;fill:#284d75}
+svg line,svg path,svg circle,svg rect{stroke:#284d75;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+svg .gold{stroke:var(--gold)}svg .fillgold{fill:#f3e6c7;stroke:var(--gold)}svg .dot{fill:var(--gold);stroke:var(--gold)}
+.postulate-layout{display:grid;grid-template-columns:1fr;gap:14px}
+.post-card{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(180px,.7fr);gap:15px;align-items:center}
+@media(max-width:620px){.post-card{grid-template-columns:1fr}}
+.post-card .statement{font-size:16px}
+.badge{display:inline-block;background:#e7efe9;color:var(--green);font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:bold;padding:4px 8px;border-radius:99px}
+details{margin-top:10px}summary{cursor:pointer;color:#805e18;font-size:12px;font-weight:bold}
+.callout{padding:15px 18px;border-left:4px solid var(--gold);background:#f7edd5;border-radius:0 9px 9px 0;margin:18px 0}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0 12px}
+.tab{background:var(--paper);border:1px solid var(--border);border-radius:8px;padding:8px 11px;cursor:pointer;font-weight:bold;color:var(--blue)}
+.tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+.question{background:var(--paper);border:1px solid var(--border);border-radius:13px;padding:18px;margin:12px 0}
+.question p{font-weight:bold;margin:0 0 10px}
+.answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.answer{border:1px solid var(--border);background:#fffaf0;padding:10px;border-radius:8px;text-align:left;cursor:pointer;color:var(--ink)}
+.answer:hover{border-color:var(--gold)}
+.answer.correct{background:#e5f3e9;border-color:#69a47b}.answer.wrong{background:#fae9e5;border-color:#c77b70}
+.feedback{font-size:13px;margin-top:8px;color:var(--muted);min-height:20px}
+#score{font-weight:bold;color:var(--blue)}
+footer{text-align:center;padding:25px 20px;color:var(--muted);font-size:12px}
+button:focus-visible,a:focus-visible{outline:3px solid #d5a63f;outline-offset:3px}
+</style>
+</head>
+<body>
+<header>
+  <nav aria-label="Page navigation">
+    <a href="#axioms">7 Axioms</a><a href="#postulates">5 Postulates</a><a href="#quiz">Quick Quiz</a>
+  </nav>
+  <div class="hero">
+    <div class="eyebrow">Class 9 Mathematics · Old NCERT</div>
+    <h1>Euclid’s Geometry</h1>
+    <p><strong>The foundations:</strong> explore Euclid’s seven axioms (common notions) and five postulates through clear statements, examples, and simple diagrams.</p>
+    <p class="small">Use the tabs and quiz below to revise the key ideas.</p>
+  </div>
+</header>
+<main>
+<section id="axioms">
+  <div class="label">Part I · Common notions</div>
+  <h2>The 7 Axioms</h2>
+  <p class="intro">An <strong>axiom</strong> is a basic statement accepted as true without proof. Euclid’s axioms apply broadly to mathematical quantities and relationships.</p>
+  <div class="grid">
+    <article class="card"><div class="card-head"><div class="number">1</div><h3>Equal to the same thing</h3></div>
+      <p class="statement">Things which are equal to the same thing are equal to one another.</p>
+      <p class="explain">If two quantities each equal 5, they must equal each other.</p>
+      <div class="example"><strong>Example:</strong> If A = C and B = C, then A = B.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="Two equal-length line segments"><line x1="20" y1="22" x2="105" y2="22"/><line x1="20" y1="15" x2="20" y2="29"/><line x1="105" y1="15" x2="105" y2="29"/><line x1="165" y1="22" x2="250" y2="22"/><line x1="165" y1="15" x2="165" y2="29"/><line x1="250" y1="15" x2="250" y2="29"/><text x="62" y="48" text-anchor="middle">A = C</text><text x="207" y="48" text-anchor="middle">B = C</text></svg></div>
+    </article>
+    <article class="card"><div class="card-head"><div class="number">2</div><h3>Adding equals</h3></div>
+      <p class="statement">If equals are added to equals, the wholes are equal.</p>
+      <p class="explain">Adding the same amount to equal amounts keeps them equal.</p>
+      <div class="example"><strong>Example:</strong> If A = B, then A + C = B + C.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="Equal bars with the same extra part added"><rect x="20" y="10" width="65" height="15"/><rect x="85" y="10" width="35" height="15" class="fillgold"/><rect x="150" y="10" width="65" height="15"/><rect x="215" y="10" width="35" height="15" class="fillgold"/><text x="70" y="45" text-anchor="middle">A + C</text><text x="200" y="45" text-anchor="middle">B + C</text></svg></div>
+    </article>
+    <article class="card"><div class="card-head"><div class="number">3</div><h3>Subtracting equals</h3></div>
+      <p class="statement">If equals are subtracted from equals, the remainders are equal.</p>
+      <p class="explain">Taking away the same amount from equal amounts leaves equal remainders.</p>
+      <div class="example"><strong>Example:</strong> If A = B, then A − C = B − C.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="Same-sized sections removed from equal bars"><rect x="20" y="10" width="65" height="15"/><rect x="85" y="10" width="35" height="15" fill="#f4d7d0" stroke="#a44336"/><rect x="150" y="10" width="65" height="15"/><rect x="215" y="10" width="35" height="15" fill="#f4d7d0" stroke="#a44336"/><text x="70" y="45" text-anchor="middle">A − C</text><text x="200" y="45" text-anchor="middle">B − C</text></svg></div>
+    </article>
+    <article class="card"><div class="card-head"><div class="number">4</div><h3>Things that coincide</h3></div>
+      <p class="statement">Things which coincide with one another are equal to one another.</p>
+      <p class="explain">If two shapes fit exactly on top of each other, they are equal in size and shape.</p>
+      <div class="example"><strong>Example:</strong> Two line segments that match exactly have the same length.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="Two coinciding line segments"><line x1="55" y1="22" x2="215" y2="22"/><line x1="55" y1="28" x2="215" y2="28" class="gold"/><circle cx="55" cy="25" r="3" class="dot"/><circle cx="215" cy="25" r="3" class="dot"/><text x="135" y="52" text-anchor="middle">They match exactly</text></svg></div>
+    </article>
+    <article class="card"><div class="card-head"><div class="number">5</div><h3>Whole and part</h3></div>
+      <p class="statement">The whole is greater than the part.</p>
+      <p class="explain">A complete length is longer than one of its smaller parts.</p>
+      <div class="example"><strong>Example:</strong> A 10 cm segment is longer than a 4 cm part of it.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="A whole segment and a shorter part"><line x1="25" y1="20" x2="245" y2="20"/><line x1="25" y1="13" x2="25" y2="27"/><line x1="245" y1="13" x2="245" y2="27"/><line x1="25" y1="39" x2="112" y2="39" class="gold"/><line x1="25" y1="32" x2="25" y2="46" class="gold"/><line x1="112" y1="32" x2="112" y2="46" class="gold"/><text x="135" y="12" text-anchor="middle">Whole</text><text x="68" y="58" text-anchor="middle">Part</text></svg></div>
+    </article>
+    <article class="card"><div class="card-head"><div class="number">6</div><h3>Doubles of equals</h3></div>
+      <p class="statement">Things which are double of the same things are equal to one another.</p>
+      <p class="explain">If two quantities are each twice the same quantity, they are equal.</p>
+      <div class="example"><strong>Example:</strong> If A = C and B = C, then 2A = 2B.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="Two bars each made of two equal units"><rect x="25" y="10" width="45" height="17"/><rect x="70" y="10" width="45" height="17" class="fillgold"/><rect x="155" y="10" width="45" height="17"/><rect x="200" y="10" width="45" height="17" class="fillgold"/><text x="70" y="49" text-anchor="middle">2 × A</text><text x="200" y="49" text-anchor="middle">2 × B</text></svg></div>
+    </article>
+    <article class="card"><div class="card-head"><div class="number">7</div><h3>Halves of equals</h3></div>
+      <p class="statement">Things which are halves of the same things are equal to one another.</p>
+      <p class="explain">If two quantities are each half of the same quantity, they are equal.</p>
+      <div class="example"><strong>Example:</strong> Half of 12 is 6; both halves of equal 12-unit quantities are 6.</div>
+      <div class="diagram"><svg viewBox="0 0 270 65" role="img" aria-label="Two equal bars divided into halves"><rect x="25" y="10" width="90" height="17"/><line x1="70" y1="10" x2="70" y2="27" class="gold"/><rect x="155" y="10" width="90" height="17"/><line x1="200" y1="10" x2="200" y2="27" class="gold"/><text x="70" y="49" text-anchor="middle">½ of A</text><text x="200" y="49" text-anchor="middle">½ of B</text></svg></div>
+    </article>
+  </div>
+</section>
+<section id="postulates">
+  <div class="label">Part II · Geometric assumptions</div>
+  <h2>The 5 Postulates</h2>
+  <p class="intro">A <strong>postulate</strong> is a basic assumption used specifically in geometry. Select a postulate to focus on its meaning and diagram.</p>
+  <div class="tabs" role="tablist" aria-label="Choose a postulate">
+    <button class="tab active" data-post="0">1 · Join points</button><button class="tab" data-post="1">2 · Extend a line</button><button class="tab" data-post="2">3 · Draw a circle</button><button class="tab" data-post="3">4 · Right angles</button><button class="tab" data-post="4">5 · Parallel-line postulate</button>
+  </div>
+  <div id="postulate-display" class="postulate-layout">
+    <article class="card post-card"><div><span class="badge">Postulate 1</span><p class="statement">A straight line may be drawn from any one point to any other point.</p><p class="explain">Any two distinct points can be joined by a straight line segment.</p><div class="example"><strong>Remember:</strong> Two points determine a straight line.</div></div><div class="diagram"><svg viewBox="0 0 270 100" role="img" aria-label="Straight line joining points A and B"><line x1="35" y1="50" x2="235" y2="50"/><circle cx="35" cy="50" r="4" class="dot"/><circle cx="235" cy="50" r="4" class="dot"/><text x="25" y="39">A</text><text x="238" y="39">B</text></svg></div></article>
+  </div>
+  <div class="callout"><strong>Exam tip:</strong> Axioms are general truths; postulates are assumptions about geometry. Learn the statements accurately, then use the examples to understand them.</div>
+</section>
+<section id="quiz">
+  <div class="label">Revision mode</div>
+  <h2>Quick Quiz</h2>
+  <p class="intro">Try these five questions. Choose one answer for each; your score updates as you go.</p>
+  <div id="quiz-box"></div>
+  <p id="score" aria-live="polite">Score: 0 / 5 answered</p>
+  <button id="reset" class="tab">Try again ↻</button>
+</section>
+</main>
+<footer>Class 9 Mathematics · Euclid’s Geometry · Axioms & Postulates only</footer>
+<script>
+const posts = [
+ {title:"A straight line may be drawn from any one point to any other point.",meaning:"Any two distinct points can be joined by a straight line segment.",example:"Two points A and B can be joined by segment AB.",svg:'<line x1="35" y1="50" x2="235" y2="50"/><circle cx="35" cy="50" r="4" class="dot"/><circle cx="235" cy="50" r="4" class="dot"/><text x="25" y="39">A</text><text x="238" y="39">B</text>',aria:"Straight line segment joining points A and B"},
+ {title:"A terminated line can be produced indefinitely.",meaning:"A line segment can be extended continuously in a straight line beyond either endpoint.",example:"A segment AB can be extended past B to a point C, and further.",svg:'<line x1="25" y1="50" x2="245" y2="50"/><path d="M25 50 l10 -5 M25 50 l10 5 M245 50 l-10 -5 M245 50 l-10 5"/><circle cx="75" cy="50" r="3" class="dot"/><circle cx="150" cy="50" r="3" class="dot"/><text x="70" y="37">A</text><text x="145" y="37">B</text><text x="238" y="37">…</text>',aria:"A straight line extended in both directions"},
+ {title:"A circle can be drawn with any centre and any radius.",meaning:"Choose a centre point and a radius; these determine a circle.",example:"With centre O and radius OA, draw a circle through A.",svg:'<circle cx="135" cy="50" r="35"/><line x1="135" y1="50" x2="170" y2="50" class="gold"/><circle cx="135" cy="50" r="3" class="dot"/><circle cx="170" cy="50" r="3" class="dot"/><text x="125" y="67">O</text><text x="174" y="46">A</text><text x="150" y="42">r</text>',aria:"Circle with centre O and radius OA"},
+ {title:"All right angles are equal to one another.",meaning:"Every angle measuring 90° has the same measure.",example:"A square has four right angles, each measuring 90°.",svg:'<path d="M45 78 L45 25 L98 25"/><path d="M45 65 L58 65 L58 78" class="gold"/><path d="M155 78 L155 25 L208 25"/><path d="M155 65 L168 65 L168 78" class="gold"/><text x="50" y="17">90°</text><text x="160" y="17">90°</text>',aria:"Two equal right angles"},
+ {title:"If a straight line falling on two straight lines makes the interior angles on the same side together less than two right angles, the two lines, if produced indefinitely, meet on that side.",meaning:"When the interior angles on one side add to less than 180°, the two lines meet on that side when extended.",example:"If those angles are 70° and 80°, their sum is 150°, less than 180°; the lines meet on that side.",svg:'<line x1="40" y1="20" x2="135" y2="85"/><line x1="40" y1="85" x2="135" y2="20"/><line x1="45" y1="50" x2="235" y2="50" class="gold"/><path d="M73 40 A20 20 0 0 1 89 50"/><path d="M73 60 A20 20 0 0 0 89 50"/><text x="94" y="39">70°</text><text x="94" y="68">80°</text><text x="150" y="43">150° &lt; 180°</text>',aria:"Two lines meeting when extended, with same-side interior angles summing to less than 180°"}
+];
+const display=document.getElementById('postulate-display');
+function showPost(i){
+ document.querySelectorAll('.tab[data-post]').forEach(b=>b.classList.toggle('active',Number(b.dataset.post)===i));
+ const p=posts[i];
+ display.innerHTML=`<article class="card post-card"><div><span class="badge">Postulate ${i+1} of 5</span><p class="statement">${p.title}</p><p class="explain">${p.meaning}</p><div class="example"><strong>Example:</strong> ${p.example}</div></div><div class="diagram"><svg viewBox="0 0 270 100" role="img" aria-label="${p.aria}">${p.svg}</svg></div></article>`;
+}
+document.querySelectorAll('.tab[data-post]').forEach(b=>b.addEventListener('click',()=>showPost(Number(b.dataset.post))));
+const questions=[
+ {q:"Which axiom says that the whole is greater than the part?",a:["Axiom 2","Axiom 4","Axiom 5","Axiom 7"],correct:2,why:"Axiom 5 states: The whole is greater than the part."},
+ {q:"If equals are added to equals, what happens to the wholes?",a:["They become unequal","They remain equal","They become halves","They become angles"],correct:1,why:"That is the statement of Axiom 2."},
+ {q:"Which postulate allows a circle to be drawn?",a:["Postulate 1","Postulate 2","Postulate 3","Postulate 4"],correct:2,why:"Postulate 3 says a circle can be drawn with any centre and any radius."},
+ {q:"What is the measure of every right angle?",a:["45°","90°","120°","180°"],correct:1,why:"Postulate 4 says all right angles are equal; each right angle measures 90°."},
+ {q:"In Postulate 5, the same-side interior angles must add to less than…",a:["90°","120°","180°","360°"],correct:2,why:"Two right angles equal 180°. If the sum is less than 180°, the lines meet on that side when extended."}
+];
+const quizBox=document.getElementById('quiz-box');let chosen={};
+function renderQuiz(){
+ quizBox.innerHTML='';
+ questions.forEach((q,i)=>{
+  const card=document.createElement('div');card.className='question';
+  const p=document.createElement('p');p.textContent=`${i+1}. ${q.q}`;card.appendChild(p);
+  const answers=document.createElement('div');answers.className='answers';
+  q.a.forEach((ans,j)=>{const b=document.createElement('button');b.className='answer';b.textContent=ans;b.addEventListener('click',()=>{chosen[i]=j;renderQuiz();});if(chosen[i]!==undefined){b.disabled=true;if(j===q.correct)b.classList.add('correct');if(j===chosen[i]&&j!==q.correct)b.classList.add('wrong');}answers.appendChild(b);});
+  card.appendChild(answers);
+  const feedback=document.createElement('div');feedback.className='feedback';
+  if(chosen[i]!==undefined)feedback.textContent=(chosen[i]===q.correct?'Correct! ':'Not quite. ')+q.why;
+  card.appendChild(feedback);quizBox.appendChild(card);
+ });
+ const answered=Object.keys(chosen).length;const score=questions.filter((q,i)=>chosen[i]===q.correct).length;
+ document.getElementById('score').textContent=answered===5?`Final score: ${score} / 5 ${score===5?'— perfect!':score>=3?'— nice work!':'— review and try again!'}`:`Score: ${score} / ${answered} answered`;
+}
+document.getElementById('reset').addEventListener('click',()=>{chosen={};renderQuiz();});
+renderQuiz();
+</script>
+</body>
+</html>
